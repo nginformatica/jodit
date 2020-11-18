@@ -1,7 +1,7 @@
 {
-	"name": "jodit",
+	"name": "@quirons/jodit",
 	"version": "3.4.29",
-	"description": "Jodit is awesome and usefully wysiwyg editor with filebrowser",
+	"description": "Copy of Jodit Editor library for adaptations",
 	"main": "build/jodit.min.js",
 	"types": "index.d.ts",
 	"typings": "index.d.ts",
@@ -26,7 +26,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/xdan/jodit.git"
+		"url": "git+https://github.com/nginformatica/jodit.git"
 	},
 	"keywords": [
 		"wysiwyg",
@@ -34,12 +34,8 @@
 		"rich",
 		"jodit"
 	],
-	"author": "Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)",
+	"author": "Wagner Esser <wagner.esser@ngi.com.br> (https://ngi.com.br/)",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/xdan/jodit/issues"
-	},
-	"homepage": "https://xdsoft.net/jodit/",
 	"dependencies": {
 		"autobind-decorator": "^2.4.0"
 	},
