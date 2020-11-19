@@ -159,7 +159,7 @@ Config.prototype.filebrowser = {
 	getThumbTemplate(
 		this: IFileBrowser,
 		item: IFileBrowserItem,
-		source: ISource,
+		_source: ISource,
 		source_name: string
 	): string {
 		const opt = this.options,

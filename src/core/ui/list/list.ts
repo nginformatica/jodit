@@ -128,8 +128,8 @@ export class UIList<T extends IViewBased = IViewBased>
 	 * @param target
 	 */
 	protected makeButton(
-		control: IControlTypeStrong,
-		target: Nullable<HTMLElement>
+		_control: IControlTypeStrong,
+		_target: Nullable<HTMLElement>
 	): IUIButton {
 		return new UIButton(this.j);
 	}

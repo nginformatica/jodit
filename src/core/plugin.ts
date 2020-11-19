@@ -24,7 +24,7 @@ export abstract class Plugin extends ViewComponent<IJodit> implements IPlugin {
 			.on('beforeDestruct', this.destruct);
 	}
 
-	init(jodit: IJodit): void {
+	init(_jodit: IJodit): void {
 		// empty
 	}
 

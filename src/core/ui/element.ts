@@ -154,7 +154,7 @@ export abstract class UIElement<T extends IViewBased = IViewBased>
 	 * Method create only box
 	 * @param options
 	 */
-	protected makeContainer(options?: IDictionary): HTMLElement {
+	protected makeContainer(_options?: IDictionary): HTMLElement {
 		return this.j.c.div(this.componentName);
 	}
 

@@ -9,7 +9,7 @@ import { IDictionary } from '../../../../types';
 
 export class UICheckbox extends UIInput {
 	/** @override */
-	protected makeContainer(options?: IDictionary): HTMLElement {
+	protected makeContainer(_options?: IDictionary): HTMLElement {
 		return this.j.c.element('label', {
 			className: this.componentName
 		});

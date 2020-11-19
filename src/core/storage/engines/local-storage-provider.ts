@@ -51,7 +51,7 @@ export class LocalStorageProvider<T = StorageValueType> implements IStorage<T> {
 		} catch {}
 	}
 
-	delete(key: string): void {
+	delete(_key: string): void {
 		try {
 			localStorage.removeItem(this.rootKey);
 		} catch {}

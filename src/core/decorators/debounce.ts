@@ -6,7 +6,7 @@
 
 import { IDictionary, IViewBased, IViewComponent } from '../../types';
 import { error, isFunction, isNumber, isViewObject } from '../helpers';
-import { Component, STATUSES } from '../component';
+import { STATUSES } from '../component';
 
 /**
  * Wrap function in debounce wrapper
@@ -17,7 +17,7 @@ export function debounce(
 	timeout?: number | ((ctx: IViewComponent | IViewBased) => number),
 	firstCallImmediately: boolean = false
 ) {
-	return <T extends Component & IDictionary>(
+	return (
 		target: IDictionary,
 		propertyKey: string
 	): void => {

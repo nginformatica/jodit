@@ -807,7 +807,7 @@ export const OptionsDefault: any = function (
 
 Config.prototype.controls = {
 	image: {
-		popup: (editor: IJodit, current, self, close) => {
+		popup: (editor: IJodit, current, _self, close) => {
 			let sourceImage: HTMLImageElement | null = null;
 
 			if (
@@ -873,7 +873,7 @@ Config.prototype.controls = {
 		popup: (
 			editor: IJodit,
 			current: Node | false,
-			self: IControlType,
+			_self: IControlType,
 			close
 		) => {
 			const insert = (url: string, title: string = '') => {

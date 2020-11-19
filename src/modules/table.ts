@@ -733,7 +733,7 @@ export class Table extends ViewComponent<IJodit> {
 
 				Table.normalizeTable(table);
 
-				each(toArray(table.rows), (index, tr) => {
+				each(toArray(table.rows), (_index, tr) => {
 					if (!tr.cells.length) {
 						Dom.safeRemove(tr);
 					}
