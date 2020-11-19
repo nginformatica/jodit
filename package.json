@@ -22,7 +22,8 @@
 		"types": "rm -rf types/* && tsc --project . --declaration --outDir types --emitDeclarationOnly",
 		"pretty": "prettier --write ./src/*.{ts,less} ./src/**/*.{ts,less} ./src/**/**/*.{ts,less} ./src/**/**/**/*.{ts,less} ./src/**/**/**/**/*.{ts,less}",
 		"fix": "eslint ./src/* ./test/ --fix && npm run pretty",
-		"lint": "eslint ./src/* ./test/"
+		"lint": "eslint ./src/* ./test/",
+		"type-check": "tsc --noEmit"
 	},
 	"repository": {
 		"type": "git",
@@ -37,7 +38,8 @@
 	"author": "Wagner Esser <wagner.esser@ngi.com.br> (https://ngi.com.br/)",
 	"license": "MIT",
 	"dependencies": {
-		"autobind-decorator": "^2.4.0"
+		"autobind-decorator": "^2.4.0",
+		"tsc": "^1.20150623.0"
 	},
 	"devDependencies": {
 		"@types/ace": "^0.0.43",
@@ -92,7 +94,7 @@
 		"ts-loader": "^8.0.5",
 		"ts-private-uglifier": "^1.0.2",
 		"tslib": "^2.0.3",
-		"typescript": "^4.0.3",
+		"typescript": "3.8.3",
 		"uglifyjs-webpack-plugin": "^2.2.0",
 		"url-loader": "^4.1.1",
 		"webpack": "^4.44.2",
