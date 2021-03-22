@@ -1,10 +1,10 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
-import { IControlType, IJodit } from '../../../../types';
+import type { IControlType, IJodit } from '../../../../types';
 import { Dom } from '../../../../core/dom';
 import { isString } from '../../../../core/helpers/checker';
 import { clearCenterAlign, css } from '../../../../core/helpers';

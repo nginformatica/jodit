@@ -1,7 +1,7 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
 import { IViewOptions, IViewWithToolbar } from './view';
@@ -96,12 +96,16 @@ interface IJodit extends IViewWithToolbar {
 
 	registerCommand(
 		commandNameOriginal: string,
-		command: CustomCommand<IJodit>
+		command: CustomCommand<IJodit>,
+		options?: {
+			stopPropagation: boolean
+		}
 	): IJodit;
 
 	registerHotkeyToCommand(
 		hotkeys: string | string[],
-		commandName: string
+		commandName: string,
+		shouldStop?: boolean
 	): void;
 
 	/**
@@ -113,7 +117,6 @@ interface IJodit extends IViewWithToolbar {
 
 	uploader: IUploader;
 	filebrowser: IFileBrowser;
-	storage: IStorage;
 
 	iframe?: HTMLIFrameElement | void;
 }

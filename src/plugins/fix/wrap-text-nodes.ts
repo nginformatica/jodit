@@ -1,15 +1,14 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
-import autobind from 'autobind-decorator';
-
+import type { IJodit, markerInfo, Nullable } from '../../types';
 import { Plugin } from '../../core/plugin';
-import { IJodit, markerInfo, Nullable } from '../../types';
 import { Dom } from '../../core/dom';
 import { isString } from '../../core/helpers/checker';
+import { autobind } from '../../core/decorators';
 
 /**
  * Wrap single text nodes in block wrapper
@@ -102,5 +101,5 @@ export class WrapTextNodes extends Plugin {
 	 */
 	private isNotClosed = (n: Nullable<Node>): n is Element =>
 		Dom.isElement(n) &&
-		!(Dom.isBlock(n, this.jodit.ew) || Dom.isTag(n, ['hr']));
+		!(Dom.isBlock(n, this.jodit.ew) || Dom.isTag(n, ['hr', 'style']));
 }

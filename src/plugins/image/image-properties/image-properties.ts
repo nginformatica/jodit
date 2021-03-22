@@ -1,14 +1,19 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
 import './image-properties.less';
 
-import autobind from 'autobind-decorator';
-
+import type {
+	IDialog,
+	IFileBrowserCallBackData,
+	IJodit,
+	IUploaderData
+} from '../../../types';
 import { Config } from '../../../config';
+
 import {
 	Alert,
 	Confirm,
@@ -32,17 +37,11 @@ import {
 	kebabCase,
 	isNumeric
 } from '../../../core/helpers';
-
-import {
-	IDialog,
-	IFileBrowserCallBackData,
-	IJodit,
-	IUploaderData
-} from '../../../types';
 import { FileSelectorWidget, TabsWidget } from '../../../modules/widget';
 import { Button } from '../../../core/ui/button';
 import { form, mainTab, positionTab } from './templates/';
-import { watch } from '../../../core/decorators';
+import { watch, autobind } from '../../../core/decorators';
+import { openImageEditor } from '../../../modules/image-editor/image-editor';
 
 /**
  * Plug-in for image editing window
@@ -152,9 +151,12 @@ export class imageProperties extends Plugin {
 			return;
 		}
 
-		const { marginRight, marginBottom, marginLeft, lockMargin } = refs<
-			HTMLInputElement
-		>(this.form);
+		const {
+			marginRight,
+			marginBottom,
+			marginLeft,
+			lockMargin
+		} = refs<HTMLInputElement>(this.form);
 
 		[marginRight, marginBottom, marginLeft].forEach(elm => {
 			attr(elm, 'disabled', this.state.marginIsLocked || null);
@@ -238,7 +240,10 @@ export class imageProperties extends Plugin {
 		this.dialog = new Dialog({
 			fullsize: this.j.o.fullsize,
 			globalFullSize: this.j.o.globalFullSize,
+			theme: this.j.o.theme,
 			language: this.j.o.language,
+			minWidth: Math.min(400, screen.width),
+			minHeight: 400,
 			buttons: ['fullsize', 'dialog.close']
 		});
 
@@ -294,9 +299,12 @@ export class imageProperties extends Plugin {
 			editor.e.on(editImage, 'click', this.openImageEditor);
 		}
 
-		const { lockSize, lockMargin, imageWidth, imageHeight } = refs<
-			HTMLInputElement
-		>(mainForm);
+		const {
+			lockSize,
+			lockMargin,
+			imageWidth,
+			imageHeight
+		} = refs<HTMLInputElement>(mainForm);
 
 		if (lockSize) {
 			editor.e.on(lockSize, 'click', () => {
@@ -729,14 +737,15 @@ export class imageProperties extends Plugin {
 
 		a.href = url;
 
-		this.j.filebrowser.dataProvider.getPathByUrl(
-			a.href.toString(),
-			(path: string, name: string, source: string) => {
-				this.j.filebrowser.openImageEditor(
+		this.j.filebrowser.dataProvider
+			.getPathByUrl(a.href.toString())
+			.then(resp => {
+				openImageEditor.call(
+					this.j.filebrowser,
 					a.href,
-					name,
-					path,
-					source,
+					resp.name,
+					resp.path,
+					resp.source,
 					() => {
 						const timestamp: number = new Date().getTime();
 
@@ -751,15 +760,14 @@ export class imageProperties extends Plugin {
 
 						this.updateValues();
 					},
-					(error: Error) => {
+					(error) => {
 						Alert(error.message).bindDestruct(this.j);
 					}
 				);
-			},
-			(error: Error) => {
+			})
+			.catch((error) => {
 				Alert(error.message, loadExternal).bindDestruct(this.j);
-			}
-		);
+			});
 	}
 
 	/**

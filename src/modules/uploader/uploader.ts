@@ -1,13 +1,11 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
 import './uploader.less';
 
-import { Config } from '../../config';
-import { IS_IE, TEXT_PLAIN } from '../../core/constants';
 import type {
 	BuildDataResult,
 	HandlerError,
@@ -21,16 +19,19 @@ import type {
 	IUploaderOptions,
 	IViewBased
 } from '../../types';
+import { Config } from '../../config';
+import { IS_IE, TEXT_PLAIN } from '../../core/constants';
 import { Ajax } from '../../core/ajax';
 import {
 	attr,
 	error,
-	extend,
 	isPlainObject,
 	isJoditObject,
 	isArray,
 	isFunction,
-	toArray
+	toArray,
+	isString,
+	ConfigProto
 } from '../../core/helpers';
 import { Dom } from '../../core/dom';
 import { ViewComponent, STATUSES } from '../../core/component/';
@@ -98,7 +99,7 @@ Config.prototype.uploader = {
 	},
 
 	defaultHandlerSuccess(this: Uploader, resp: IUploaderData) {
-		const j = this.j;
+		const j = this.j || this;
 
 		if (!isJoditObject(j)) {
 			return;
@@ -119,16 +120,14 @@ Config.prototype.uploader = {
 					elm.textContent = resp.baseurl + filename;
 				}
 
-				if (isJoditObject(this.j)) {
-					if (tagName === 'img') {
-						this.j.s.insertImage(
-							elm as HTMLImageElement,
-							null,
-							this.j.o.imageDefaultWidth
-						);
-					} else {
-						this.j.s.insertNode(elm);
-					}
+				if (tagName === 'img') {
+					j.s.insertImage(
+						elm as HTMLImageElement,
+						null,
+						j.o.imageDefaultWidth
+					);
+				} else {
+					j.s.insertNode(elm);
 				}
 			});
 		}
@@ -147,6 +146,11 @@ Config.prototype.uploader = {
 } as IUploaderOptions<Uploader>;
 
 export class Uploader extends ViewComponent implements IUploader {
+	/** @override */
+	className(): string {
+		return 'Uploader';
+	}
+
 	/**
 	 * Convert dataURI to Blob
 	 *
@@ -196,7 +200,7 @@ export class Uploader extends ViewComponent implements IUploader {
 				return data;
 			}
 
-			if (typeof data === 'string') {
+			if (isString(data)) {
 				return data;
 			}
 
@@ -214,7 +218,7 @@ export class Uploader extends ViewComponent implements IUploader {
 
 	private ajaxInstances: IAjax[] = [];
 
-	send(
+	private send(
 		data: FormData | IDictionary<string>,
 		success: (resp: IUploaderAnswer) => void
 	): Promise<any> {
@@ -230,6 +234,8 @@ export class Uploader extends ViewComponent implements IUploader {
 							(this.j.ow as any).FormData !== undefined &&
 							xhr.upload
 						) {
+							this.j.progressbar.show().progress(10);
+
 							xhr.upload.addEventListener(
 								'progress',
 								evt => {
@@ -238,6 +244,11 @@ export class Uploader extends ViewComponent implements IUploader {
 											evt.loaded / evt.total;
 
 										percentComplete *= 100;
+
+										console.log(
+											'progress',
+											percentComplete
+										);
 
 										this.j.progressbar
 											.show()
@@ -258,7 +269,9 @@ export class Uploader extends ViewComponent implements IUploader {
 					},
 					method: this.o.method || 'POST',
 					data: request,
-					url: this.o.url,
+					url: isFunction(this.o.url)
+						? this.o.url(request)
+						: this.o.url,
 					headers: this.o.headers,
 					queryBuild: this.o.queryBuild,
 					contentType: this.o.contentType.call(this, request),
@@ -305,7 +318,7 @@ export class Uploader extends ViewComponent implements IUploader {
 	 * @param handlerError
 	 * @param process
 	 */
-	sendFiles(
+	private sendFiles(
 		files: FileList | File[] | null,
 		handlerSuccess?: HandlerSuccess,
 		handlerError?: HandlerError,
@@ -753,12 +766,12 @@ export class Uploader extends ViewComponent implements IUploader {
 	constructor(editor: IViewBased, options?: IUploaderOptions<Uploader>) {
 		super(editor);
 
-		this.options = extend(
-			true,
-			{},
-			Config.defaultOptions.uploader,
-			isJoditObject(editor) ? editor.o.uploader : null,
-			options
+		this.options = ConfigProto(
+			options || {},
+			ConfigProto(
+				Config.defaultOptions.uploader,
+				isJoditObject(editor) ? editor.o.uploader : {}
+			)
 		) as IUploaderOptions<Uploader>;
 	}
 

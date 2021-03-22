@@ -1,7 +1,7 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 describe('Test editor indent plugin', function() {
 	describe('Indent', function() {
@@ -74,7 +74,7 @@ describe('Test editor indent plugin', function() {
 		});
 	});
 
-	it(`should indent multi-line selection of various child elements only on 1st 2 lines`, function() {
+	it('should indent multi-line selection of various child elements only on 1st 2 lines', function() {
 		const editor = getJodit();
 		editor.value = `
     <p>
@@ -111,7 +111,7 @@ describe('Test editor indent plugin', function() {
 		expect(el3.style.marginLeft).equals('');
 	});
 
-	it(`should indent multi-line selection of "dd" and "dt" child elements only on 1st 2 dt/dd groups`, function() {
+	it('should indent multi-line selection of "dd" and "dt" child elements only on 1st 2 dt/dd groups', function() {
 		const editor = getJodit();
 		editor.value = `
     <dl>
@@ -157,9 +157,9 @@ describe('Test editor indent plugin', function() {
 	});
 
 	describe('If selection element outside the editor', function () {
-		it(`should do nothing`, function() {
+		it('should do nothing', function() {
 			const editor = getJodit(), div = appendTestDiv();
-			editor.value = `test`;
+			editor.value = 'test';
 
 			div.innerHTML = 'text';
 

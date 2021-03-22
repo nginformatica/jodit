@@ -1,7 +1,7 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
 describe('Text Inline Popup plugin', function () {
@@ -17,7 +17,7 @@ describe('Text Inline Popup plugin', function () {
 
 				const popup = getOpenedPopup(editor);
 
-				expect(popup && popup.parentNode.parentNode !== null).equals(
+				expect(popup && popup.parentNode.parentNode != null).equals(
 					true
 				);
 			});
@@ -31,19 +31,18 @@ describe('Text Inline Popup plugin', function () {
 
 					simulateEvent(
 						'click',
-						0,
 						editor.editor.querySelector('img')
 					);
 
 					const popup = getOpenedPopup(editor);
 
-					expect(popup && popup.parentNode.parentNode !== null).is
+					expect(popup && popup.parentNode.parentNode != null).is
 						.true;
 
 					clickButton('pencil', popup);
 
 					const dialog = editor.ownerDocument.querySelector(
-						'.jodit.jodit-dialog__box[data-editor_id=' +
+						'.jodit.jodit-dialog[data-editor_id=' +
 							editor.id +
 							']'
 					);
@@ -65,7 +64,7 @@ describe('Text Inline Popup plugin', function () {
 
 				const popup = getOpenedPopup(editor);
 
-				expect(popup && popup.parentNode.parentNode !== null).equals(
+				expect(popup && popup.parentNode.parentNode != null).equals(
 					true
 				);
 			});
@@ -79,7 +78,7 @@ describe('Text Inline Popup plugin', function () {
 
 					const popup = getOpenedPopup(editor);
 
-					expect(popup && popup.parentNode.parentNode !== null).is
+					expect(popup && popup.parentNode.parentNode != null).is
 						.true;
 
 					clickButton('link', popup);
@@ -189,7 +188,7 @@ describe('Text Inline Popup plugin', function () {
 
 						const popup = getOpenedPopup(editor);
 
-						expect(popup && popup.parentNode.parentNode !== null).is
+						expect(popup && popup.parentNode.parentNode != null).is
 							.true;
 
 						clickTrigger('brush', popup);
@@ -247,7 +246,7 @@ describe('Text Inline Popup plugin', function () {
 			const td = editor.editor.querySelector('td'),
 				pos = Jodit.modules.Helpers.position(td);
 
-			simulateEvent(['mousedown', 'mouseup', 'click'], 0, td, e => {
+			simulateEvent(['mousedown', 'mouseup', 'click'], td, e => {
 				Object.assign(e, {
 					clientX: pos.left,
 					clientY: pos.top
@@ -255,7 +254,7 @@ describe('Text Inline Popup plugin', function () {
 			});
 
 			const popup = getOpenedPopup(editor);
-			expect(popup && popup.parentNode.parentNode !== null).is.true;
+			expect(popup && popup.parentNode.parentNode != null).is.true;
 
 			clickTrigger('valign', popup);
 
@@ -367,7 +366,7 @@ describe('Text Inline Popup plugin', function () {
 
 			const popup = getOpenedPopup(editor);
 
-			expect(popup && popup.parentNode.parentNode !== null).is.true;
+			expect(popup && popup.parentNode.parentNode != null).is.true;
 
 			clickTrigger('addcolumn', popup);
 
@@ -400,7 +399,7 @@ describe('Text Inline Popup plugin', function () {
 
 			const popup = getOpenedPopup(editor);
 
-			expect(popup && popup.parentNode.parentNode !== null).is.true;
+			expect(popup && popup.parentNode.parentNode != null).is.true;
 
 			clickTrigger('addrow', popup);
 
@@ -438,7 +437,7 @@ describe('Text Inline Popup plugin', function () {
 
 			const popup = getOpenedPopup(editor);
 
-			expect(popup && popup.parentNode.parentNode !== null).is.true;
+			expect(popup && popup.parentNode.parentNode != null).is.true;
 
 			clickTrigger('delete', popup);
 
@@ -477,7 +476,7 @@ describe('Text Inline Popup plugin', function () {
 
 			const popup = getOpenedPopup(editor);
 
-			expect(popup && popup.parentNode.parentNode !== null).is.true;
+			expect(popup && popup.parentNode.parentNode != null).is.true;
 
 			clickTrigger('delete', popup);
 
@@ -515,7 +514,7 @@ describe('Text Inline Popup plugin', function () {
 
 					const popup = getOpenedPopup(editor);
 
-					expect(popup && popup.parentNode.parentNode !== null).equals(
+					expect(popup && popup.parentNode.parentNode != null).equals(
 						true
 					);
 
@@ -538,7 +537,7 @@ describe('Text Inline Popup plugin', function () {
 
 					input.focus();
 
-					expect(popup && popup.parentNode.parentNode !== null).equals(
+					expect(popup && popup.parentNode.parentNode != null).equals(
 						true
 					);
 

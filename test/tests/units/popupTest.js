@@ -1,7 +1,7 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 describe('Test popup', function() {
 	const position = Jodit.modules.Helpers.position;
@@ -61,6 +61,7 @@ describe('Test popup', function() {
 
 	const openPopup = function(getBound, content, strategy) {
 		const editor = getJodit();
+
 		const popup = new Jodit.modules.Popup(editor);
 
 		if (strategy) {

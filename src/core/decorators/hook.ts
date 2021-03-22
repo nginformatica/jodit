@@ -1,15 +1,16 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
-import {
+import type {
 	ComponentStatus,
 	IDictionary,
 	IViewBased,
 	IViewComponent
 } from '../../types';
+import type { Component } from '../component';
 import { error, isFunction } from '../helpers';
 
 /**
@@ -17,7 +18,7 @@ import { error, isFunction } from '../helpers';
  * @param timeout
  */
 export function hook(status: ComponentStatus) {
-	return (
+	return <T extends Component & IDictionary>(
 		target: IDictionary,
 		propertyKey: string
 	): void => {

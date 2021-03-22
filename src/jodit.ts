@@ -1,15 +1,34 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
-import { Config, configFactory } from './config';
+import type {
+	CustomCommand,
+	ExecCommandCallback,
+	IDictionary,
+	IPluginSystem,
+	IStatusBar,
+	IViewOptions,
+	IWorkPlace,
+	markerInfo,
+	Modes,
+	IFileBrowser,
+	IJodit,
+	IUploader,
+	ICreate,
+	IFileBrowserCallBackData,
+	IStorage,
+	CanPromise
+} from './types';
+
+import { Config } from './config';
 import * as consts from './core/constants';
+
 import {
 	Create,
 	Dom,
-	FileBrowser,
 	Observer,
 	Plugin,
 	Select,
@@ -28,56 +47,32 @@ import {
 	isFunction,
 	resolveElement,
 	isVoid,
-	JoditArray,
-	JoditObject,
 	callPromise,
-	toArray
+	toArray,
+	markAsAtomic,
+	ConfigProto
 } from './core/helpers/';
 
 import { Storage } from './core/storage/';
 
-import type {
-	CustomCommand,
-	ExecCommandCallback,
-	IDictionary,
-	IPluginSystem,
-	IStatusBar,
-	IViewOptions,
-	IWorkPlace,
-	markerInfo,
-	Modes,
-	IFileBrowser,
-	IJodit,
-	IUploader,
-	ICreate,
-	IFileBrowserCallBackData,
-	IStorage,
-	CanPromise,
-	HTMLTagNames,
-	IViewBased,
-	IViewComponent
-} from './types';
-
 import { ViewWithToolbar } from './core/view/view-with-toolbar';
 
-import {
-	instances,
-	pluginSystem,
-	modules,
-	lang,
-	getContainer
-} from './core/global';
-import { cache } from './core/decorators';
-import autobind from 'autobind-decorator';
+import { instances, pluginSystem, modules, lang } from './core/global';
+import { autobind, cache } from './core/decorators';
 
 /**
  * Class Jodit. Main class
  */
 export class Jodit extends ViewWithToolbar implements IJodit {
+	/** @override */
+	className(): string {
+		return 'Jodit';
+	}
+
 	/**
 	 * Define if object is Jodit
 	 */
-	isJodit: true = true;
+	readonly isJodit: true = true;
 
 	/**
 	 * Plain text editor's value
@@ -117,27 +112,15 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	}
 
 	/**
-	 * Method wrap usual Array in Object helper for prevent deep array merging in options
-	 *
-	 * @param array
-	 * @constructor
-	 */
-	static Array(array: never[]): JoditArray {
-		return new JoditArray(array);
-	}
-
-	/**
 	 * Method wrap usual Has Object in Object helper for prevent deep object merging in options*
-	 *
 	 * @param object
-	 * @constructor
 	 */
-	static Object(object: never): JoditObject {
-		return new JoditObject(object);
+	static atom<T>(object: T): T {
+		return markAsAtomic(object);
 	}
 
 	/**
-	 * Fabric for creating Jodit instance
+	 * Factory for creating Jodit instance
 	 *
 	 * @param element
 	 * @param options
@@ -146,7 +129,14 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 		return new Jodit(element, options);
 	}
 
-	static defaultOptions: Config;
+	/**
+	 * Default settings
+	 */
+	static get defaultOptions(): Config {
+		return Config.defaultOptions;
+	}
+
+	static fatMode: boolean = false;
 
 	static plugins: IPluginSystem = pluginSystem;
 
@@ -155,13 +145,9 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 
 	static decorators: IDictionary<Function> = {};
 	static instances: IDictionary<IJodit> = instances;
-	static getContainer: <T extends HTMLTagNames = HTMLTagNames>(
-		jodit: IViewBased | IViewComponent,
-		classFunc: Function,
-		tag: T,
-		inside: boolean
-	) => HTMLElementTagNameMap[T] = getContainer;
+
 	static lang: any = lang;
+
 	static core = {
 		Plugin
 	};
@@ -304,7 +290,7 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	/**
 	 * @property {Select} selection
 	 */
-	selection: Select;
+	readonly selection: Select;
 
 	/**
 	 * Alias for this.selection
@@ -328,39 +314,42 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	get filebrowser(): IFileBrowser {
 		const jodit = this;
 
-		const options = {
-			defaultTimeout: jodit.defaultTimeout,
-			uploader: jodit.o.uploader,
-			language: jodit.o.language,
-			theme: jodit.o.theme,
-			defaultCallback(data: IFileBrowserCallBackData): void {
-				if (data.files && data.files.length) {
-					data.files.forEach((file, i) => {
-						const url = data.baseurl + file;
-						const isImage = data.isImages
-							? data.isImages[i]
-							: false;
+		const options = ConfigProto(
+			{
+				defaultTimeout: jodit.defaultTimeout,
+				uploader: jodit.o.uploader,
+				language: jodit.o.language,
+				license: jodit.o.license,
+				theme: jodit.o.theme,
+				defaultCallback(data: IFileBrowserCallBackData): void {
+					if (data.files && data.files.length) {
+						data.files.forEach((file, i) => {
+							const url = data.baseurl + file;
+							const isImage = data.isImages
+								? data.isImages[i]
+								: false;
 
-						if (isImage) {
-							jodit.s.insertImage(
-								url,
-								null,
-								jodit.o.imageDefaultWidth
-							);
-						} else {
-							jodit.s.insertNode(
-								jodit.createInside.fromHTML(
-									`<a href="${url}" title="${url}">${url}</a>`
-								)
-							);
-						}
-					});
+							if (isImage) {
+								jodit.s.insertImage(
+									url,
+									null,
+									jodit.o.imageDefaultWidth
+								);
+							} else {
+								jodit.s.insertNode(
+									jodit.createInside.fromHTML(
+										`<a href='${url}' title='${url}'>${url}</a>`
+									)
+								);
+							}
+						});
+					}
 				}
 			},
-			...this.o.filebrowser
-		};
+			this.o.filebrowser
+		);
 
-		return jodit.getInstance<FileBrowser>('FileBrowser', options);
+		return jodit.getInstance<IFileBrowser>('FileBrowser', options);
 	}
 
 	private __mode: Modes = consts.MODE_WYSIWYG;
@@ -621,7 +610,10 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	 */
 	registerCommand(
 		commandNameOriginal: string,
-		command: CustomCommand<IJodit>
+		command: CustomCommand<IJodit>,
+		options?: {
+			stopPropagation: boolean;
+		}
 	): IJodit {
 		const commandName: string = commandNameOriginal.toLowerCase();
 
@@ -638,7 +630,11 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 				command.hotkeys;
 
 			if (hotkeys) {
-				this.registerHotkeyToCommand(hotkeys, commandName);
+				this.registerHotkeyToCommand(
+					hotkeys,
+					commandName,
+					options?.stopPropagation
+				);
 			}
 		}
 
@@ -650,19 +646,24 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 	 *
 	 * @param hotkeys
 	 * @param commandName
+	 * @param shouldStop
 	 */
 	registerHotkeyToCommand(
 		hotkeys: string | string[],
-		commandName: string
+		commandName: string,
+		shouldStop: boolean = true
 	): void {
 		const shortcuts: string = asArray(hotkeys)
 			.map(normalizeKeyAliases)
 			.map(hotkey => hotkey + '.hotkey')
 			.join(' ');
 
-		this.e.off(shortcuts).on(shortcuts, () => {
-			return this.execCommand(commandName); // because need `beforeCommand`
-		});
+		this.e
+			.off(shortcuts)
+			.on(shortcuts, (type: string, stop: { shouldStop: boolean }) => {
+				stop.shouldStop = shouldStop ?? true;
+				return this.execCommand(commandName); // because need `beforeCommand`
+			});
 	}
 
 	/**
@@ -1035,7 +1036,9 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 
 	/** @override **/
 	protected initOptions(options?: object): void {
-		this.options = configFactory(options);
+		this.options = <Config>(
+			ConfigProto(options || {}, Config.defaultOptions)
+		);
 	}
 
 	/** @override **/
@@ -1091,6 +1094,8 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 			const initPluginsResult = pluginSystem.init(this);
 
 			callPromise(initPluginsResult, () => {
+				this.e.fire('afterPluginSystemInit', this);
+
 				this.e.on('changePlace', () => {
 					this.setReadOnly(this.o.readonly);
 					this.setDisabled(this.o.disabled);
@@ -1142,7 +1147,7 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 				let value: string | boolean | number = attr.value;
 
 				if (
-					(Jodit.defaultOptions as any)[name] !== undefined &&
+					(Config.defaultOptions as any)[name] !== undefined &&
 					(!options || (options as any)[name] === undefined)
 				) {
 					if (['readonly', 'disabled'].indexOf(name) !== -1) {
@@ -1218,13 +1223,18 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 
 		workplace.appendChild(editor);
 
-		const currentPlace = {
+		const currentPlace: IWorkPlace = {
 			editor,
 			element,
 			container,
 			workplace,
 			statusbar,
-			options: this.isReady ? configFactory(options) : this.options,
+			options: this.isReady
+				? (ConfigProto(
+						options || {},
+						Config.defaultOptions
+				  ) as IWorkPlace['options'])
+				: this.options,
 			observer: new Observer(this),
 			editorWindow: this.ow
 		};
@@ -1258,6 +1268,11 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 		};
 
 		return callPromise(initResult, init);
+	}
+
+	/** @override */
+	protected addDisclaimer(elm: HTMLElement) {
+		this.workplace.appendChild(elm);
 	}
 
 	/**
@@ -1294,7 +1309,7 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 			if (this.element !== this.container) {
 				this.setElementValue();
 			} else {
-				buffer !== null && this.setEditorValue(buffer); // inline mode
+				buffer != null && this.setEditorValue(buffer); // inline mode
 			}
 
 			let mode = this.o.defaultMode;

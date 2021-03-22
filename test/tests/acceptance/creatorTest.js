@@ -1,7 +1,7 @@
 /*!
  * Jodit Editor (https://xdsoft.net/jodit/)
  * Released under MIT see LICENSE.txt in the project root for license information.
- * Copyright (c) 2013-2020 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
+ * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 describe('Test Creator module', function() {
 	describe('Create inside element', function() {
@@ -82,7 +82,7 @@ describe('Test Creator module', function() {
 				const ol = editor.createInside.element('ol');
 				expect(ol.className).equals('indent_small ollist list_offset_left');
 
-				editor.value = "one"
+				editor.value = 'one'
 				editor.execCommand('selectall');
 				editor.execCommand('insertUnorderedList');
 
