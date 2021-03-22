@@ -113,7 +113,7 @@ export abstract class UIElement<T extends IViewBased = IViewBased>
 	setMod(
 		name: string,
 		value: string | boolean | null,
-		container: HTMLElement = this.container
+		_container: HTMLElement = this.container
 	): this {
 		Mods.setMod.call(this, name, value);
 		return this;
@@ -161,7 +161,7 @@ export abstract class UIElement<T extends IViewBased = IViewBased>
 	 * Method create only box
 	 * @param options
 	 */
-	protected render(options?: IDictionary): HTMLElement | string {
+	protected render(_options?: IDictionary): HTMLElement | string {
 		return this.j.c.div(this.componentName);
 	}
 

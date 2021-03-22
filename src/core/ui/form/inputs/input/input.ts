@@ -63,7 +63,7 @@ export class UIInput extends UIElement implements IUIInput {
 	}
 
 	@watch('state.className')
-	protected onChangeClassName(ignore?: unknown, oldClassName?: string): void {
+	protected onChangeClassName(_ignore?: unknown, oldClassName?: string): void {
 		oldClassName && this.container.classList.remove(oldClassName);
 		this.state.className &&
 			this.container.classList.add(this.state.className);
@@ -174,7 +174,7 @@ export class UIInput extends UIElement implements IUIInput {
 	 */
 	@autobind
 	protected onChangeValue() {
-		const {value} = this;
+		const { value } = this;
 
 		this.state.value = value;
 		this.j.e.fire(this, 'change', value);
@@ -214,7 +214,7 @@ export class UIInput extends UIElement implements IUIInput {
 	/**
 	 * Create native input element
 	 */
-	protected createNativeInput(options: Partial<this['state']>): IUIInput['nativeInput'] {
+	protected createNativeInput(_options: Partial<this['state']>): IUIInput['nativeInput'] {
 		return this.j.create.element('input');
 	}
 

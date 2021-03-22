@@ -18,7 +18,7 @@ export class UICheckbox extends UIInput {
 	}
 
 	/** @override */
-	protected render(options?: IDictionary): HTMLElement {
+	protected render(_options?: IDictionary): HTMLElement {
 		return this.j.c.element('label', {
 			className: this.componentName
 		});
@@ -26,6 +26,6 @@ export class UICheckbox extends UIInput {
 
 	/** @override **/
 	constructor(jodit: IViewBased, options: Partial<IUIInput['state']>) {
-		super(jodit, {...options, type: 'checkbox'});
+		super(jodit, { ...options, type: 'checkbox' });
 	}
 }

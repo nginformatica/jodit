@@ -10,7 +10,6 @@ import type {
 	IViewBased,
 	IViewComponent
 } from '../../types';
-import type { Component } from '../component';
 import { error, isFunction } from '../helpers';
 
 /**
@@ -18,7 +17,7 @@ import { error, isFunction } from '../helpers';
  * @param timeout
  */
 export function hook(status: ComponentStatus) {
-	return <T extends Component & IDictionary>(
+	return (
 		target: IDictionary,
 		propertyKey: string
 	): void => {

@@ -57,7 +57,7 @@ export default class DataProvider implements IFileBrowserDataProvider {
 	constructor(
 		readonly parent: IViewBased,
 		readonly options: IFileBrowserOptions
-	) {}
+	) { }
 
 	/**
 	 * Alias for options
@@ -134,7 +134,7 @@ export default class DataProvider implements IFileBrowserDataProvider {
 		});
 	}
 
-	private progressHandler = (ignore: number): void => {};
+	private progressHandler = (_ignore: number): void => { };
 
 	onProgress(callback: (percentage: number) => void) {
 		this.progressHandler = callback;
@@ -246,7 +246,7 @@ export default class DataProvider implements IFileBrowserDataProvider {
 		const elements: IFileBrowserItem[] = [];
 
 		const canBeFile = (item: ISourceFile): boolean =>
-				!mods.onlyImages || item.isImage === undefined || item.isImage,
+			!mods.onlyImages || item.isImage === undefined || item.isImage,
 			inFilter = (item: ISourceFile): boolean =>
 				!mods.filterWord?.length ||
 				this.o.filter === undefined ||

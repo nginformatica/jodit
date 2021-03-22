@@ -660,7 +660,7 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 
 		this.e
 			.off(shortcuts)
-			.on(shortcuts, (type: string, stop: { shouldStop: boolean }) => {
+			.on(shortcuts, (_type: string, stop: { shouldStop: boolean }) => {
 				stop.shouldStop = shouldStop ?? true;
 				return this.execCommand(commandName); // because need `beforeCommand`
 			});
@@ -875,8 +875,8 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 		const oldmode: Modes = this.getMode();
 
 		const data = {
-				mode: parseInt(mode.toString(), 10) as Modes
-			},
+			mode: parseInt(mode.toString(), 10) as Modes
+		},
 			modeClasses = [
 				'jodit-wysiwyg_mode',
 				'jodit-source__mode',
@@ -1231,9 +1231,9 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 			statusbar,
 			options: this.isReady
 				? (ConfigProto(
-						options || {},
-						Config.defaultOptions
-				  ) as IWorkPlace['options'])
+					options || {},
+					Config.defaultOptions
+				) as IWorkPlace['options'])
 				: this.options,
 			observer: new Observer(this),
 			editorWindow: this.ow
@@ -1340,16 +1340,16 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 					false,
 					this.o.enter.toLowerCase()
 				);
-			} catch {}
+			} catch { }
 
 			// fix for native resizing
 			try {
 				this.ed.execCommand('enableObjectResizing', false, 'false');
-			} catch {}
+			} catch { }
 
 			try {
 				this.ed.execCommand('enableInlineTableEditing', false, 'false');
-			} catch {}
+			} catch { }
 		});
 	}
 
@@ -1460,7 +1460,7 @@ export class Jodit extends ViewWithToolbar implements IJodit {
 			.on(
 				editor,
 				'selectionchange selectionstart keydown keyup keypress dblclick mousedown mouseup ' +
-					'click copy cut dragstart drop dragover paste resize touchstart touchend focus blur',
+				'click copy cut dragstart drop dragover paste resize touchstart touchend focus blur',
 				(event: Event): false | void => {
 					if (this.o.readonly) {
 						return;

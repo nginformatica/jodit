@@ -17,7 +17,7 @@ import {
 	isPlainObject,
 	isViewObject
 } from '../helpers';
-import { Component, STATUSES } from '../component';
+import { STATUSES } from '../component';
 
 /**
  * Wrap function in debounce wrapper
@@ -31,7 +31,7 @@ export function debounce<V = IViewComponent | IViewBased>(
 	firstCallImmediately: boolean = false,
 	method: 'debounce' | 'throttle' = 'debounce'
 ) {
-	return <T extends Component & IDictionary>(
+	return (
 		target: IDictionary,
 		propertyKey: string
 	): void => {

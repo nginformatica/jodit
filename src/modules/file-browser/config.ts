@@ -162,7 +162,7 @@ Config.prototype.filebrowser = {
 	getThumbTemplate(
 		this: IFileBrowser,
 		item: IFileBrowserItem,
-		source: ISource,
+		_source: ISource,
 		source_name: string
 	): string {
 		const opt = this.options,
@@ -178,15 +178,15 @@ Config.prototype.filebrowser = {
 
 		const info = `<div class="${IC}-info">${
 			showName ? `<span class="${IC}-info-filename">${name}</span>` : ''
-		}${
+			}${
 			showSize
 				? `<span class="${IC}-info-filesize">${item.size}</span>`
 				: ''
-		}${
+			}${
 			showTime
 				? `<span class="${IC}-info-filechanged">${showTime}</span>`
 				: ''
-		}</div>`;
+			}</div>`;
 
 		return `<a
 			data-jodit-filebrowser-item="true"
@@ -406,25 +406,25 @@ Config.prototype.controls.filebrowser = {
 		getContent: (fb: IFileBrowser): HTMLElement => {
 			const select: HTMLSelectElement = fb.c.fromHTML(
 				'<select class="jodit-input jodit-select">' +
-					`<option value="changed-asc">${fb.i18n(
-						'Sort by changed'
-					)} (⬆)</option>` +
-					`<option value="changed-desc">${fb.i18n(
-						'Sort by changed'
-					)} (⬇)</option>` +
-					`<option value="name-asc">${fb.i18n(
-						'Sort by name'
-					)} (⬆)</option>` +
-					`<option value="name-desc">${fb.i18n(
-						'Sort by name'
-					)} (⬇)</option>` +
-					`<option value="size-asc">${fb.i18n(
-						'Sort by size'
-					)} (⬆)</option>` +
-					`<option value="size-desc">${fb.i18n(
-						'Sort by size'
-					)} (⬇)</option>` +
-					'</select>'
+				`<option value="changed-asc">${fb.i18n(
+					'Sort by changed'
+				)} (⬆)</option>` +
+				`<option value="changed-desc">${fb.i18n(
+					'Sort by changed'
+				)} (⬇)</option>` +
+				`<option value="name-asc">${fb.i18n(
+					'Sort by name'
+				)} (⬆)</option>` +
+				`<option value="name-desc">${fb.i18n(
+					'Sort by name'
+				)} (⬇)</option>` +
+				`<option value="size-asc">${fb.i18n(
+					'Sort by size'
+				)} (⬆)</option>` +
+				`<option value="size-desc">${fb.i18n(
+					'Sort by size'
+				)} (⬇)</option>` +
+				'</select>'
 			) as HTMLSelectElement;
 
 			select.value = fb.state.sortBy;

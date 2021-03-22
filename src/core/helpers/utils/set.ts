@@ -25,7 +25,7 @@ import { isPlainObject } from '../checker';
  * @param chain
  * @param obj
  */
-export function set<T>(chain: string, value: unknown, obj: IDictionary): void {
+export function set(chain: string, value: unknown, obj: IDictionary): void {
 	if (!isString(chain) || !chain.length) {
 		return;
 	}

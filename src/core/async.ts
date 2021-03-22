@@ -124,14 +124,14 @@ export class Async implements IAsync {
 
 		return isPlainObject(timeout) && timeout.promisify
 			? (...args: any[]) => {
-					const promise = this.promise(res => {
-						promises.push(res);
-					});
+				const promise = this.promise(res => {
+					promises.push(res);
+				});
 
-					onFire(...args);
+				onFire(...args);
 
-					return promise;
-			  }
+				return promise;
+			}
 			: onFire;
 	}
 
@@ -155,7 +155,7 @@ export class Async implements IAsync {
 	throttle(
 		fn: CallbackFunction,
 		timeout: ITimeout | IAsyncParams,
-		ignore: boolean = false
+		_ignore: boolean = false
 	): CallbackFunction {
 		let timer: number | null = null,
 			needInvoke: boolean,
@@ -200,7 +200,7 @@ export class Async implements IAsync {
 			reject?: (reason?: any) => void
 		) => void
 	): RejectablePromise<T> {
-		let rejectCallback: RejectablePromise<T>['rejectCallback'] = () => {};
+		let rejectCallback: RejectablePromise<T>['rejectCallback'] = () => { };
 
 		const promise = new Promise<T>((resolve, reject) => {
 			this.promisesRejections.add(reject);

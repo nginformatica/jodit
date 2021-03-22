@@ -59,7 +59,7 @@ export class Table extends ViewComponent<IJodit> {
 		// eslint-disable-next-line no-prototype-builtins
 		style.innerHTML = selectors.length
 			? selectors.join(',') +
-			  `{${(this.jodit.options as any).table.selectionCellStyle}}`
+			`{${(this.jodit.options as any).table.selectionCellStyle}}`
 			: '';
 	}
 
@@ -738,7 +738,7 @@ export class Table extends ViewComponent<IJodit> {
 
 				Table.normalizeTable(table);
 
-				each(toArray(table.rows), (index, tr) => {
+				each(toArray(table.rows), (_index, tr) => {
 					if (!tr.cells.length) {
 						Dom.safeRemove(tr);
 					}

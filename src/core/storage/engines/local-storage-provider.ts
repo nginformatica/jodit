@@ -23,7 +23,7 @@ export const canUsePersistentStorage: BooleanFunction = (() => {
 			localStorage.removeItem(tmpKey);
 
 			return result;
-		} catch {}
+		} catch { }
 
 		return false;
 	};
@@ -52,13 +52,13 @@ export class LocalStorageProvider<T = StorageValueType> implements IStorage<T> {
 			json[key] = value;
 
 			localStorage.setItem(this.rootKey, JSON.stringify(json));
-		} catch {}
+		} catch { }
 	}
 
-	delete(key: string): void {
+	delete(_key: string): void {
 		try {
 			localStorage.removeItem(this.rootKey);
-		} catch {}
+		} catch { }
 	}
 
 	get<R = T>(key: string): R | void {
@@ -68,18 +68,18 @@ export class LocalStorageProvider<T = StorageValueType> implements IStorage<T> {
 			const json = buffer ? JSON.parse(buffer) : {};
 
 			return json[key] !== undefined ? json[key] : null;
-		} catch {}
+		} catch { }
 	}
 
 	exists(key: string): boolean {
 		return this.get(key) != null;
 	}
 
-	constructor(readonly rootKey: string) {}
+	constructor(readonly rootKey: string) { }
 
 	clear(): void {
 		try {
 			localStorage.removeItem(this.rootKey);
-		} catch {}
+		} catch { }
 	}
 }
