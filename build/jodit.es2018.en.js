@@ -1,7 +1,7 @@
 /*!
  * @quirons/jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
  * Author: Wagner Esser <wagner.esser@ngi.com.br> (https://ngi.com.br/)
- * Version: v3.6.6
+ * Version: v3.6.7
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
  */
@@ -9004,7 +9004,7 @@ class View extends component/* Component */.wA {
         this.isView = true;
         this.mods = {};
         this.components = new Set();
-        this.version = "3.6.6";
+        this.version = "3.6.7";
         this.async = new Async();
         this.buffer = Storage.makeStorage();
         this.storage = Storage.makeStorage(true, this.componentName);
@@ -9102,10 +9102,10 @@ class View extends component/* Component */.wA {
         return this.__isFullSize;
     }
     getVersion() {
-        return "3.6.6";
+        return "3.6.7";
     }
     static getVersion() {
-        return "3.6.6";
+        return "3.6.7";
     }
     initOptions(options) {
         this.options = (0,helpers.ConfigProto)(options || {}, (0,helpers.ConfigProto)(this.options || {}, View.defaultOptions));
