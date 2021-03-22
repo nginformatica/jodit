@@ -1,6 +1,6 @@
 /*!
- * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
- * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
+ * @quirons/jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
+ * Author: Wagner Esser <wagner.esser@ngi.com.br> (https://ngi.com.br/)
  * Version: v3.6.6
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
@@ -1240,7 +1240,7 @@ var Jodit = (function (_super) {
             .join(' ');
         this.e
             .off(shortcuts)
-            .on(shortcuts, function (type, stop) {
+            .on(shortcuts, function (_type, stop) {
             stop.shouldStop = shouldStop !== null && shouldStop !== void 0 ? shouldStop : true;
             return _this.execCommand(commandName);
         });
@@ -5731,7 +5731,7 @@ tslib_1.__exportStar(__webpack_require__(73), exports);
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.camelCase = void 0;
 var camelCase = function (key) {
-    return key.replace(/([-_])(.)/g, function (m, code, letter) {
+    return key.replace(/([-_])(.)/g, function (_m, _code, letter) {
         return letter.toUpperCase();
     });
 };
@@ -6051,8 +6051,8 @@ var UIElement = (function (_super) {
         });
         return elm ? elm === null || elm === void 0 ? void 0 : elm.component : null;
     };
-    UIElement.prototype.setMod = function (name, value, container) {
-        if (container === void 0) { container = this.container; }
+    UIElement.prototype.setMod = function (name, value, _container) {
+        if (_container === void 0) { _container = this.container; }
         traits_1.Mods.setMod.call(this, name, value);
         return this;
     };
@@ -6074,7 +6074,7 @@ var UIElement = (function (_super) {
     UIElement.prototype.clearName = function (name) {
         return name.replace(/[^a-zA-Z0-9]/g, '_');
     };
-    UIElement.prototype.render = function (options) {
+    UIElement.prototype.render = function (_options) {
         return this.j.c.div(this.componentName);
     };
     UIElement.prototype.createContainer = function (options) {
@@ -7010,7 +7010,7 @@ var UIList = (function (_super) {
         this.update();
         return this;
     };
-    UIList.prototype.makeButton = function (control, target) {
+    UIList.prototype.makeButton = function (_control, _target) {
         return new button_1.UIButton(this.j);
     };
     tslib_1.__decorate([
@@ -7157,7 +7157,7 @@ Object.defineProperty(exports, "autobind", ({ enumerable: true, get: function ()
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.cache = void 0;
 var helpers_1 = __webpack_require__(19);
-function cache(target, name, descriptor) {
+function cache(_target, name, descriptor) {
     var getter = descriptor.get;
     if (!getter) {
         throw helpers_1.error('Getter property descriptor expected');
@@ -8321,7 +8321,7 @@ var UIInput = (function (_super) {
             dom_1.Dom.safeRemove(this.clearButton);
         }
     };
-    UIInput.prototype.onChangeClassName = function (ignore, oldClassName) {
+    UIInput.prototype.onChangeClassName = function (_ignore, oldClassName) {
         oldClassName && this.container.classList.remove(oldClassName);
         this.state.className &&
             this.container.classList.add(this.state.className);
@@ -8419,7 +8419,7 @@ var UIInput = (function (_super) {
         helpers_1.attr(nativeInput, 'dir', this.j.o.direction || 'auto');
         return container;
     };
-    UIInput.prototype.createNativeInput = function (options) {
+    UIInput.prototype.createNativeInput = function (_options) {
         return this.j.create.element('input');
     };
     UIInput.prototype.focus = function () {
@@ -8630,7 +8630,7 @@ var UICheckbox = (function (_super) {
     UICheckbox.prototype.className = function () {
         return 'UICheckbox';
     };
-    UICheckbox.prototype.render = function (options) {
+    UICheckbox.prototype.render = function (_options) {
         return this.j.c.element('label', {
             className: this.componentName
         });
@@ -9768,9 +9768,9 @@ var Async = (function () {
             }
             : onFire;
     };
-    Async.prototype.throttle = function (fn, timeout, ignore) {
+    Async.prototype.throttle = function (fn, timeout, _ignore) {
         var _this = this;
-        if (ignore === void 0) { ignore = false; }
+        if (_ignore === void 0) { _ignore = false; }
         var timer = null, needInvoke, callee, lastArgs;
         return function () {
             var args = [];
@@ -11080,7 +11080,7 @@ var LocalStorageProvider = (function () {
         }
         catch (_a) { }
     };
-    LocalStorageProvider.prototype.delete = function (key) {
+    LocalStorageProvider.prototype.delete = function (_key) {
         try {
             localStorage.removeItem(this.rootKey);
         }
@@ -11609,7 +11609,9 @@ var ToolbarButton = (function (_super) {
             }
         }
         if (ctr.tooltip) {
-            state.tooltip = this.j.i18n(ctr.tooltip);
+            state.tooltip = this.j.i18n(helpers_1.isFunction(ctr.tooltip)
+                ? ctr.tooltip(this.j, ctr, this)
+                : ctr.tooltip);
         }
         state.hasTrigger = Boolean(ctr.list || (ctr.popup && ctr.exec));
     };
@@ -11980,7 +11982,7 @@ var Plugin = (function (_super) {
     Plugin.prototype.className = function () {
         return '';
     };
-    Plugin.prototype.init = function (jodit) {
+    Plugin.prototype.init = function (_jodit) {
     };
     Plugin.prototype.destruct = function () {
         var _a, _b, _c;
@@ -12571,7 +12573,7 @@ config_1.Config.prototype.filebrowser = {
     showFileChangeTime: true,
     saveStateInStorage: true,
     pixelOffsetLoadNewChunk: 200,
-    getThumbTemplate: function (item, source, source_name) {
+    getThumbTemplate: function (item, _source, source_name) {
         var opt = this.options, showName = opt.showFileName, showSize = opt.showFileSize && item.size, showTime = opt.showFileChangeTime && item.time;
         var name = '';
         if (item.file !== undefined) {
@@ -12828,7 +12830,7 @@ var DataProvider = (function () {
         this.options = options;
         this.__currentPermissions = null;
         this.ajaxInstances = new Map();
-        this.progressHandler = function (ignore) { };
+        this.progressHandler = function (_ignore) { };
     }
     Object.defineProperty(DataProvider.prototype, "o", {
         get: function () {
@@ -16568,7 +16570,7 @@ var Table = (function (_super) {
                 delete first.__i_am_already_was;
                 Table.__unmark(__marked);
                 Table.normalizeTable(table);
-                helpers_1.each(helpers_1.toArray(table.rows), function (index, tr) {
+                helpers_1.each(helpers_1.toArray(table.rows), function (_index, tr) {
                     if (!tr.cells.length) {
                         dom_1.Dom.safeRemove(tr);
                     }
@@ -32680,7 +32682,7 @@ module.exports = "<svg viewBox=\"0 0 18.151 18.151\" xmlns=\"http://www.w3.org/2
 /* 346 */
 /***/ ((module) => {
 
-module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 432 432\"> <g> <polygon points=\"203.688,96 0,96 0,144 155.688,144 \"/> <polygon points=\"155.719,288 0,288 0,336 203.719,336 \"/> <rect x=\"252\" y=\"96\"/> <rect/> <rect x=\"252\" y=\"288\"/> <rect y=\"384\"/> <path d=\"M97.844,230.125c-3.701-3.703-5.856-8.906-5.856-14.141s2.154-10.438,5.856-14.141l9.844-9.844H0v48h107.719 L97.844,230.125z\"/> <polygon points=\"232,176 232,96 112,216 232,336 232,256 432,256 432,176 \"/> </g> </svg>"
+module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 432 432\"> <g> <polygon points=\"203.688,96 0,96 0,144 155.688,144 \"/> <polygon points=\"155.719,288 0,288 0,336 203.719,336 \"/> <path d=\"M97.844,230.125c-3.701-3.703-5.856-8.906-5.856-14.141s2.154-10.438,5.856-14.141l9.844-9.844H0v48h107.719 L97.844,230.125z\"/> <polygon points=\"232,176 232,96 112,216 232,336 232,256 432,256 432,176\"/> </g> </svg>"
 
 /***/ }),
 /* 347 */
@@ -33159,8 +33161,9 @@ module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 1792 179
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

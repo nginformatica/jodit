@@ -1,6 +1,6 @@
 /*!
- * jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
- * Author: Chupurnov <chupurnov@gmail.com> (https://xdsoft.net/)
+ * @quirons/jodit - Jodit is awesome and usefully wysiwyg editor with filebrowser
+ * Author: Wagner Esser <wagner.esser@ngi.com.br> (https://ngi.com.br/)
  * Version: v3.6.6
  * Url: https://xdsoft.net/jodit/
  * License(s): MIT
@@ -3894,7 +3894,7 @@ __webpack_require__.d(__webpack_exports__, {
  * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 const camelCase = (key) => {
-    return key.replace(/([-_])(.)/g, (m, code, letter) => {
+    return key.replace(/([-_])(.)/g, (_m, _code, letter) => {
         return letter.toUpperCase();
     });
 };
@@ -4267,7 +4267,7 @@ class UIElement extends _component__WEBPACK_IMPORTED_MODULE_0__/* .ViewComponent
         });
         return elm ? elm === null || elm === void 0 ? void 0 : elm.component : null;
     }
-    setMod(name, value, container = this.container) {
+    setMod(name, value, _container = this.container) {
         _traits__WEBPACK_IMPORTED_MODULE_2__/* .Mods.setMod.call */ .$.setMod.call(this, name, value);
         return this;
     }
@@ -4289,7 +4289,7 @@ class UIElement extends _component__WEBPACK_IMPORTED_MODULE_0__/* .ViewComponent
     clearName(name) {
         return name.replace(/[^a-zA-Z0-9]/g, '_');
     }
-    render(options) {
+    render(_options) {
         return this.j.c.div(this.componentName);
     }
     createContainer(options) {
@@ -5238,7 +5238,7 @@ let UIList = class UIList extends group/* UIGroup */.q {
         this.update();
         return this;
     }
-    makeButton(control, target) {
+    makeButton(_control, _target) {
         return new ui_button/* UIButton */.y3(this.j);
     }
 };
@@ -5343,7 +5343,7 @@ var helpers = __webpack_require__(8);
  * Copyright (c) 2013-2021 Valeriy Chupurnov. All rights reserved. https://xdsoft.net
  */
 
-function cache(target, name, descriptor) {
+function cache(_target, name, descriptor) {
     const getter = descriptor.get;
     if (!getter) {
         throw (0,helpers.error)('Getter property descriptor expected');
@@ -6638,7 +6638,7 @@ let UIInput = UIInput_1 = class UIInput extends ui_element/* UIElement */.u {
             dom/* Dom.safeRemove */.i.safeRemove(this.clearButton);
         }
     }
-    onChangeClassName(ignore, oldClassName) {
+    onChangeClassName(_ignore, oldClassName) {
         oldClassName && this.container.classList.remove(oldClassName);
         this.state.className &&
             this.container.classList.add(this.state.className);
@@ -6726,7 +6726,7 @@ let UIInput = UIInput_1 = class UIInput extends ui_element/* UIElement */.u {
         (0,helpers.attr)(nativeInput, 'dir', this.j.o.direction || 'auto');
         return container;
     }
-    createNativeInput(options) {
+    createNativeInput(_options) {
         return this.j.create.element('input');
     }
     focus() {
@@ -6818,7 +6818,7 @@ let UICheckbox = class UICheckbox extends UIInput {
     className() {
         return 'UICheckbox';
     }
-    render(options) {
+    render(_options) {
         return this.j.c.element('label', {
             className: this.componentName
         });
@@ -11872,7 +11872,7 @@ module.exports = "<svg viewBox=\"0 0 18.151 18.151\" xmlns=\"http://www.w3.org/2
 /* 67 */
 /***/ ((module) => {
 
-module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 432 432\"> <g> <polygon points=\"203.688,96 0,96 0,144 155.688,144 \"/> <polygon points=\"155.719,288 0,288 0,336 203.719,336 \"/> <rect x=\"252\" y=\"96\"/> <rect/> <rect x=\"252\" y=\"288\"/> <rect y=\"384\"/> <path d=\"M97.844,230.125c-3.701-3.703-5.856-8.906-5.856-14.141s2.154-10.438,5.856-14.141l9.844-9.844H0v48h107.719 L97.844,230.125z\"/> <polygon points=\"232,176 232,96 112,216 232,336 232,256 432,256 432,176 \"/> </g> </svg>"
+module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 432 432\"> <g> <polygon points=\"203.688,96 0,96 0,144 155.688,144 \"/> <polygon points=\"155.719,288 0,288 0,336 203.719,336 \"/> <path d=\"M97.844,230.125c-3.701-3.703-5.856-8.906-5.856-14.141s2.154-10.438,5.856-14.141l9.844-9.844H0v48h107.719 L97.844,230.125z\"/> <polygon points=\"232,176 232,96 112,216 232,336 232,256 432,256 432,176\"/> </g> </svg>"
 
 /***/ }),
 /* 68 */
@@ -12351,8 +12351,9 @@ module.exports = "<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 0 1792 179
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -12710,7 +12711,7 @@ class Async {
             }
             : onFire;
     }
-    throttle(fn, timeout, ignore = false) {
+    throttle(fn, timeout, _ignore = false) {
         let timer = null, needInvoke, callee, lastArgs;
         return (...args) => {
             needInvoke = true;
@@ -13062,7 +13063,7 @@ class LocalStorageProvider {
         }
         catch (_a) { }
     }
-    delete(key) {
+    delete(_key) {
         try {
             localStorage.removeItem(this.rootKey);
         }
@@ -13719,7 +13720,9 @@ let ToolbarButton = class ToolbarButton extends ui_button/* UIButton */.y3 {
             }
         }
         if (ctr.tooltip) {
-            state.tooltip = this.j.i18n(ctr.tooltip);
+            state.tooltip = this.j.i18n((0,helpers.isFunction)(ctr.tooltip)
+                ? ctr.tooltip(this.j, ctr, this)
+                : ctr.tooltip);
         }
         state.hasTrigger = Boolean(ctr.list || (ctr.popup && ctr.exec));
     }
@@ -14614,7 +14617,7 @@ class Plugin extends component/* ViewComponent */.Hr {
     className() {
         return '';
     }
-    init(jodit) {
+    init(_jodit) {
     }
     destruct() {
         var _a, _b, _c;
@@ -14863,7 +14866,7 @@ config/* Config.prototype.filebrowser */.D.prototype.filebrowser = {
     showFileChangeTime: true,
     saveStateInStorage: true,
     pixelOffsetLoadNewChunk: 200,
-    getThumbTemplate(item, source, source_name) {
+    getThumbTemplate(item, _source, source_name) {
         const opt = this.options, showName = opt.showFileName, showSize = opt.showFileSize && item.size, showTime = opt.showFileChangeTime && item.time;
         let name = '';
         if (item.file !== undefined) {
@@ -15158,7 +15161,7 @@ class DataProvider {
         this.options = options;
         this.__currentPermissions = null;
         this.ajaxInstances = new Map();
-        this.progressHandler = (ignore) => { };
+        this.progressHandler = (_ignore) => { };
     }
     get o() {
         return this.options;
@@ -18811,7 +18814,7 @@ class Table extends component/* ViewComponent */.Hr {
                 delete first.__i_am_already_was;
                 Table.__unmark(__marked);
                 Table.normalizeTable(table);
-                (0,helpers.each)((0,helpers.toArray)(table.rows), (index, tr) => {
+                (0,helpers.each)((0,helpers.toArray)(table.rows), (_index, tr) => {
                     if (!tr.cells.length) {
                         dom/* Dom.safeRemove */.i.safeRemove(tr);
                     }
@@ -19771,7 +19774,7 @@ class Jodit extends ViewWithToolbar {
             .join(' ');
         this.e
             .off(shortcuts)
-            .on(shortcuts, (type, stop) => {
+            .on(shortcuts, (_type, stop) => {
             stop.shouldStop = shouldStop !== null && shouldStop !== void 0 ? shouldStop : true;
             return this.execCommand(commandName);
         });
